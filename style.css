@@ -1,0 +1,33 @@
+html{
+    box-sizing: border-box
+}
+
+*, *::before, *::after{
+    box-sizing: inherit
+}
+:root{
+    --light-gray: #7284a1;
+}
+.todo-heading > div{
+    font-weight: bold;
+    font-size:1rem;
+    margin-top: 2rem;
+}
+.todo-no{
+    flex-basis: 3%;
+}
+.todo-item{
+    flex-basis: 55%;
+}
+.todo-status{
+    flex-basis: 10%;
+}
+.todo-actions{
+    flex-basis: 15%;
+}
+.todo-items {
+    color: var(--light-gray);
+}
+.todo-items .todo-no {
+    color: black;
+}
