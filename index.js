@@ -1,6 +1,7 @@
 console.log("welcome to js logic");
 let inputBar = document.getElementById("inputBar");
 let saveButton = document.getElementById("saveButton");
+let todoData = document.getElementById("todo-data-list");
 let todos=[];
 
 inputBar.addEventListener("keyup", ()=>{
@@ -12,23 +13,43 @@ inputBar.addEventListener("keyup", ()=>{
             return;
         }
         else{
-            saveButton.classList.add("disabled")
+            saveButton.classList.add("disabled");
             return;
         }
     }
     else{
-        saveButton.classList.remove("disabled")
+        saveButton.classList.remove("disabled");
     }
 })
 
 saveButton.addEventListener("click", ()=>{
+    if(inputBar.value.length==0)
+    {
+        saveButton.classList.add("disabled")
+        return;
+    }
     todos.push(inputBar.value);
     addItem(inputBar.value, todos.length);
     inputBar.value ='';
 })
 
+function deleteButtonClicked (e) {
+    deleteButton = e.target;
+    indexToBeRemoved = Number(deleteButton.getAttribute("todo-indx"));
+    todos.splice(indexToBeRemoved,1);
+    todoData.innerHTML = "";
+    todos.forEach((element, index)=>{
+        addItem(element, index+1)
+    })
+
+}
+
+
+
+
+
 function addItem(data, todoCount) {
-    let mainBox = document.getElementById("maincontainer")
+    let mainBox = document.getElementById("todo-data-list")
     let todoData = document.createElement("div");
     let belowToDoData = document.createElement("div");
     let todoItems = document.createElement("div");
@@ -58,6 +79,11 @@ function addItem(data, todoCount) {
     todoData.appendChild(hr);
     mainBox.appendChild(todoData);
     
+    buttonDelete.setAttribute("todo-indx",todoCount-1 ); //setting attribute - while making that html 
+    buttonDelete.onclick = deleteButtonClicked
+    todoData.setAttribute("id", "todo-data");
+
+
     todoData.classList.add("todo-data")
     belowToDoData.classList.add("row");
     todoItems.classList.add("todo-items", "d-flex", "flex-wrap", "justify-content-center");
