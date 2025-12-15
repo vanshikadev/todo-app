@@ -28,27 +28,53 @@ saveButton.addEventListener("click", ()=>{
         saveButton.classList.add("disabled")
         return;
     }
-    todos.push(inputBar.value);
-    addItem(inputBar.value, todos.length);
+    let dataObject = {text:inputBar.value, status: 'In progress', buttonFinishText: 'Finish'}
+    todos.push(dataObject);
+    addItem(dataObject, todos.length);
     inputBar.value ='';
 })
 
-function deleteButtonClicked (e) {
-    deleteButton = e.target;
-    indexToBeRemoved = Number(deleteButton.getAttribute("todo-indx"));
-    todos.splice(indexToBeRemoved,1);
+function renderDataList (todos){
     todoData.innerHTML = "";
     todos.forEach((element, index)=>{
         addItem(element, index+1)
     })
+}
+function deleteButtonClicked (e) {
+    deleteButton = e.target;
+    indexToBeRemoved = Number(deleteButton.getAttribute("todo-indx"));
+    todos.splice(indexToBeRemoved,1);
+    renderDataList(todos);
+}
+function finishedButtonClicked (e){
+    let finishButtonClicked = e.target;
+    indexToFinish = Number(finishButtonClicked.getAttribute("todo-indx"));
 
+    if(finishButtonClicked.textContent == 'Finish')
+    {
+        todos[indexToFinish].buttonFinishText = "Undo";
+        todos[indexToFinish].status = "Done";
+    }
+    else if(finishButtonClicked.textContent =='Undo')
+    {
+        todos[indexToFinish].buttonFinishText = "Finish";
+        todos[indexToFinish].status = "In progress";
+    }
+    todos.sort((a,b)=>{
+        if (a.status == "Done"){
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+
+    })
+    renderDataList(todos, todos.length);
 }
 
 
-
-
-
-function addItem(data, todoCount) {
+function addItem(dataObject, count) {
     let mainBox = document.getElementById("todo-data-list")
     let todoData = document.createElement("div");
     let belowToDoData = document.createElement("div");
@@ -61,11 +87,11 @@ function addItem(data, todoCount) {
     let buttonFinish = document.createElement("button");
     let hr = document.createElement("hr");
 
-    todoNo.textContent= `${todoCount}.`;
-    todoItem.textContent= data;
-    todoStatus.textContent= "pending";
+    todoNo.textContent= `${count}.`;
+    todoItem.textContent= dataObject.text;
+    todoStatus.textContent= dataObject.status;
     buttonDelete.textContent="delete";
-    buttonFinish.textContent="finish";
+    buttonFinish.textContent= dataObject.buttonFinishText;
 
     todoActions.appendChild(buttonDelete);
     todoActions.appendChild(buttonFinish);
@@ -79,8 +105,11 @@ function addItem(data, todoCount) {
     todoData.appendChild(hr);
     mainBox.appendChild(todoData);
     
-    buttonDelete.setAttribute("todo-indx",todoCount-1 ); //setting attribute - while making that html 
-    buttonDelete.onclick = deleteButtonClicked
+    buttonDelete.setAttribute("todo-indx",count-1 ); //setting attribute - while making that html 
+    buttonDelete.onclick = deleteButtonClicked;
+
+    buttonFinish.setAttribute("todo-indx",count-1 ); //setting attribute - while making that html 
+    buttonFinish.onclick = finishedButtonClicked;
     todoData.setAttribute("id", "todo-data");
 
 
