@@ -17,17 +17,26 @@ html{
     flex-basis: 3%;
 }
 .todo-item{
-    flex-basis: 55%;
+    flex-basis: 40%;
 }
 .todo-status{
     flex-basis: 10%;
 }
 .todo-actions{
-    flex-basis: 15%;
+    flex-basis: 30%;
 }
 .todo-items {
     color: var(--light-gray);
 }
 .todo-items .todo-no {
     color: black;
+}
+.edit{
+    flex-basis: 30%
+}
+.finish{
+    flex-basis:30%;
+}
+.delete{
+    flex-basis: 30%;
 }
