@@ -44,7 +44,6 @@ function renderDataList (todos){
     })
 }
 getTaskbutton.addEventListener("click",()=>{
-    console.log("inside");
     todos= todos.filter((todo)=> todo.status != "Done");
     renderDataList(todos);
     })
@@ -82,7 +81,6 @@ function finishedButtonClicked (e){
     renderDataList(todos, todos.length);
 }
 function editButtonClicked(e){
-    console.log("edited");
     let editbutton = e.target;
     let indexEditButtonClicked = Number(editbutton.getAttribute("todo-indx"));
 
@@ -163,11 +161,9 @@ function addItem(dataObject, count) {
     buttonEdit.onclick = editButtonClicked;
     todoItem.setAttribute("todo-indx",count-1);
     hiddentText.setAttribute("todo-indx", count-1);
-    // todoData.setAttribute("id", "todo-data");
-
     hiddentText.onkeydown = saveEditedText;
 
-
+//adding classes
     todoData.classList.add("todo-data")
     belowToDoData.classList.add("row");
     todoItems.classList.add("todo-items", "d-flex", "flex-wrap", "justify-content-around");
@@ -181,15 +177,3 @@ function addItem(dataObject, count) {
     hiddentText.classList.add("todo-item", "form-control");
 
 }
-
-
-
-
-
-
-
-
-// const getTask= document.getElementById("getTask");
-// getTask.addEventListener("click", ()=>{
-//     console.log("clicked hahaha!!")
-// }) 
